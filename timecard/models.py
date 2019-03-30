@@ -14,10 +14,13 @@ class Timecard(models.Model):
 
 
 class Job(models.Model):
-    job_code = models.CharField(max_length=10, null=False)
+    job_code = models.CharField(max_length=25, null=False)
     description = models.CharField(max_length=100, null=False)
     hourly_rate = models.IntegerField(default=0)
     max_hour_perday = models.IntegerField(null=False)
+
+    def __str__(self):
+        return self.job_code
 
 
 class Machine(models.Model):
@@ -25,6 +28,9 @@ class Machine(models.Model):
     description = models.CharField(max_length=100, null=False)
     hourly_rent = models.IntegerField(default=0)
     max_hour_perday = models.IntegerField(null=False)
+
+    def __str__(self):
+        return  self.machine_code
 
 
 class Timecard_Details(models.Model):
