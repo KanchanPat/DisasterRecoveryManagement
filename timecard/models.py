@@ -29,7 +29,7 @@ class Machine(models.Model):
 
 class Timecard_Details(models.Model):
     sitecode_id = models.ForeignKey(Timecard, on_delete='casscade')
-    code = models.models.CharField(max_length=50, null=False)
+    code = models.CharField(max_length=50, null=False)
     code_type = models.CharField(choices=(('J', 'job_code'), ('M', 'machine_code')), default='',max_length=10)
     hours = models.IntegerField(default=0)
 
