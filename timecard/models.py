@@ -1,6 +1,6 @@
 from django.db import models
 from datetime import datetime
-
+from django.urls import reverse
 # Create your models here.
 
 
@@ -19,6 +19,9 @@ class Job(models.Model):
     hourly_rate = models.IntegerField(default=0)
     max_hour_perday = models.IntegerField(null=False)
 
+    def get_absolute_url(self):
+        return reverse('job_management')
+
     def __str__(self):
         return self.job_code
 
@@ -28,6 +31,9 @@ class Machine(models.Model):
     description = models.CharField(max_length=100, null=False)
     hourly_rent = models.IntegerField(default=0)
     max_hour_perday = models.IntegerField(null=False)
+
+    def get_absolute_url(self):
+        return reverse('machine_management')
 
     def __str__(self):
         return  self.machine_code
