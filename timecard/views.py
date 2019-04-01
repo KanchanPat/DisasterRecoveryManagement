@@ -11,14 +11,14 @@ from django.shortcuts import get_object_or_404
 class TimeCardList(ListView):
     model = Timecard
     context_object_name = 'time_card_list'
-    template_name = 'test.html'
+    template_name = 'base.html'
 
 
 @method_decorator(login_required, name='dispatch')
 class JobList(ListView):
     model = Job
     context_object_name = 'job_list'
-    template_name = 'test.html'
+    template_name = 'job_code.html'
 
 
 @method_decorator(login_required, name='dispatch')
@@ -28,7 +28,9 @@ class JobUpdate(UpdateView):
     template_name = 'update_form.html'
 
     def get_object(self):
-        return get_object_or_404(Job, job_code='plumber')
+        job_id = self.request.GET.get("pk", "")
+        print(job_id)
+        return get_object_or_404(Job, id=job_id)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -45,7 +47,9 @@ class JobDelete(DeleteView):
     success_url = reverse_lazy('job_management')
 
     def get_object(self):
-        return get_object_or_404(Job, job_code='plumber')
+        job_id = self.request.POST.get("pk", False)
+        obj = get_object_or_404(Job, pk=int(job_id))
+        return obj
 
 
 @method_decorator(login_required, name='dispatch')
