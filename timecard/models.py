@@ -40,8 +40,25 @@ class Machine(models.Model):
 
 
 class Timecard_Details(models.Model):
-    sitecode_id = models.ForeignKey(Timecard, on_delete='casscade')
-    code = models.CharField(max_length=50, null=False)
-    code_type = models.CharField(choices=(('J', 'job_code'), ('M', 'machine_code')), default='',max_length=10)
-    hours = models.IntegerField(default=0)
+    sitecode_id = models.CharField(max_length=50)
+    contractor_name = models.CharField(max_length=50, null=False, default='')
+    date = models.DateTimeField(null=False, default=datetime.now())
+    #status = models.CharField(choices=((0, 'open'), (1, 'review'), (2, 'Finallized')), default='', max_length=10)
+    # code = models.CharField(max_length=50, null=False)
+    # code_type = models.CharField(choices=(('J', 'job_code'), ('M', 'machine_code')), default='',max_length=10)
+    job_code = models.ForeignKey(Job,on_delete='casscade',default=None)
+    machine_code = models.ForeignKey(Machine,on_delete='casscade',default=None)
+    job_hours = models.IntegerField(default=0)
+    machine_hours = models.IntegerField(default=0)
+
+class JobEntry(models.Model):
+    job_code = models.ForeignKey(Job,on_delete='casscade')
+    hours_worked = models.IntegerField(default=0)
+    total = models.IntegerField(default=0)
+
+class MachineEntry(models.Model):
+    machine_code = models.ForeignKey(Machine,on_delete='casscade')
+    hours_useded = models.IntegerField(default=0)
+    total = models.IntegerField(default=0)
+
 
