@@ -3,21 +3,6 @@ from datetime import datetime
 from django.urls import reverse
 # Create your models here.
 
-
-class Timecard(models.Model):
-    site_code = models.CharField(max_length=50, null=False)
-    contractor_name = models.CharField(max_length=50, null=False)
-    date = models.DateTimeField(null=False, default=datetime.now())
-    status = models.CharField(choices=(('open', 'open'), ('review', 'review'), ('Finallized', 'Finallized')),default='',max_length=10)
-    total_hours = models.IntegerField(default=0)
-    total_amount = models.IntegerField(default=0)
-
-    def get_absolute_url(self):
-        return reverse('job_management', kwargs={'pk': self.pk})
-
-    def __str__(self):
-        return self.site_code
-
 class Job(models.Model):
     job_code = models.CharField(max_length=25, null=False)
     description = models.CharField(max_length=100, null=False)
@@ -50,6 +35,13 @@ class Timecard(models.Model):
     status = models.CharField(choices=((0, 'open'), (1, 'review'), (2, 'Finallized')),default='',max_length=10)
     total_hours = models.IntegerField(default=0)
     total_amount = models.IntegerField(default=0)
+
+    def get_absolute_url(self):
+        return reverse('job_management', kwargs={'pk': self.pk})
+
+    def __str__(self):
+        return self.site_code
+
 
 class JobEntry(models.Model):
     job_code = models.ForeignKey(Job, on_delete='casscade')

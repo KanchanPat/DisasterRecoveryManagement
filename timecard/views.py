@@ -31,7 +31,7 @@ class TimeCardList(ListView):
 class JobList(ListView):
     model = Job
     context_object_name = 'job_list'
-    template_name = 'job_code.html'
+    template_name = 'job_management.html'
 
     def get_object(self):
         job_id = self.request.GET.get("pk", "")
@@ -137,13 +137,13 @@ class JobDelete(DeleteView):
 class MachineList(ListView):
     model = Machine
     context_object_name = 'machine_list'
-    template_name = 'update_form.html'
+    template_name = 'machine_management.html'
 
 
 @method_decorator(login_required, name='dispatch')
 class MachineUpdate(UpdateView):
     model = Machine
-    template_name = ''
+    template_name = 'update_form.html'
 
     def get_object(self):
         return get_object_or_404(Machine, machine_code='plumber')
@@ -152,7 +152,8 @@ class MachineUpdate(UpdateView):
 @method_decorator(login_required, name='dispatch')
 class MachineCreate(CreateView):
     model = Machine
-    template_name = ''
+    template_name = 'update_form.html'
+    fields = ['machine_code', 'description', 'hourly_rent', 'max_hour_perday']
 
 
 @method_decorator(login_required, name='dispatch')

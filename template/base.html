@@ -19,7 +19,7 @@
 
     <div class="header">
         <div class="title">
-            <h3 style="margin-top:0.5px;margin-bottom: 2%">Disaster Recovery Application<span style="float: right">Username</span>
+            <h3 style="margin-top:0.5px;margin-bottom: 2%">Disaster Recovery Application<span style="float: right">{{ user.username }}</span>
             </h3>
         </div>
     </div>
@@ -34,7 +34,7 @@
                 <a href="{% url 'timecard_approval' %}">Timecard approval</a>
                 {% endif %}
                 {% if not user.is_superuser %}
-                 <a href="{% url 'Timecard Submission' %}">Job code management</a><br><br>
+                 <a href="{% url 'timecard_submission' %}">Job code management</a><br><br>
                 {% endif %}
             </nav>
         </div>
