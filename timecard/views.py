@@ -24,7 +24,7 @@ from timecard.models import Job, Machine, MachineEntry
 class TimeCardList(ListView):
     model = Timecard
     context_object_name = 'time_card_list'
-    template_name = 'base.html'
+    template_name = 'timecard_management.html'
 
 
 @method_decorator(login_required, name='dispatch')

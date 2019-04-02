@@ -37,7 +37,7 @@ class Timecard(models.Model):
     total_amount = models.IntegerField(default=0)
 
     def get_absolute_url(self):
-        return reverse('job_management', kwargs={'pk': self.pk})
+        return reverse('timecard_management', kwargs={'pk': self.pk})
 
     def __str__(self):
         return self.site_code
