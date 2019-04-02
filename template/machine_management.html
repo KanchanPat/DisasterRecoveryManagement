@@ -15,9 +15,9 @@
             </tr>
             {% for machine in machine_list %}
                 <tr>
-                    <td>{{ machine.job_code }}</td>
+                    <td>{{ machine.machine_code }}</td>
                     <td>{{ machine.description }}</td>
-                    <td>{{ machine.hourly_rate }}</td>
+                    <td>{{ machine.hourly_rent }}</td>
                     <td>{{ machine.max_hour_perday }}</td>
                     <td><a href="{% url 'machine_update' machine.id %}"> Edit</a></td>
                     <td><a href="{% url 'machine_delete' machine.id %}"> Delete</a></td>
