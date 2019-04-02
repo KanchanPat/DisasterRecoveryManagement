@@ -25,10 +25,14 @@
     <div id="menu" style="background-color:#ffffff;float:left;">
         <div>
             <nav>
+                {% if user.is_superuser %}
                 <a href="{% url 'job_management' %}">Job code management</a><br><br>
                 <a href="{% url 'machine_management' %}">Machine management</a><br><br>
                 <br><br>
-                <a href="{% url 'job_management' %}">Timecard approval</a>
+                <a href="{% url 'timecard_approval' %}">Timecard approval</a>
+                {% if not user.is_superuser %}
+                 <a href="{% url 'Timecard Submission' %}">Job code management</a><br><br>
+                {% endif %}
             </nav>
         </div>
 

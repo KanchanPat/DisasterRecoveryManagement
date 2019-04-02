@@ -11,14 +11,14 @@ from django.shortcuts import get_object_or_404
 class TimeCardList(ListView):
     model = Timecard
     context_object_name = 'time_card_list'
-    template_name = 'base.html'
+    template_name = 'timecard_approval.html'
 
 
 @method_decorator(login_required, name='dispatch')
 class JobList(ListView):
     model = Job
     context_object_name = 'job_list'
-    template_name = 'job_code.html'
+    template_name = 'job_management2.html'
 
 
 @method_decorator(login_required, name='dispatch')
