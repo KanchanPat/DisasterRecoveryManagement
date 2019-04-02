@@ -34,5 +34,5 @@ urlpatterns = [
     path('machine_delete/<int:pk>/', MachineDelete.as_view(), name='machine_delete'),
     path('timecard_management/', TimeCardList.as_view(), name='timecard_management' ),
     path('status_update/<int:pk>/', StatusUpdateView.as_view(), name='status_update'),
-    path('timecard/<int:pk>/',views.create_timecard,name='timecard')
+    path('timecard/',views.create_timecard,name='timecard')
 ]

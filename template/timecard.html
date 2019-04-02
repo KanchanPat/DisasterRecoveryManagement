@@ -1,17 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-<form>
+<form action="." method="post">
     <span style="margin-left:45px;"><b>Timesheet Submission</b></span>
     <br><br>
-    <div style="margin-left:45px;">
-        <table  cellpadding="8">
-            <tr>
-                <td>Site Code: </td><td>{{form.site_code}}</td>
-                <td>Contractor Name: </td><td>{{form.contractor_name}}</td>
-                <td>Date: </td><td>{{form.date}}</td>
-            </tr>
-        </table>
-    </div>
+   {{ form.as_table }}
     <br><br>
     <span style="margin-left:45px;"><b>Job Entry</b></span>
     <div style="margin-left:45px;">
@@ -61,6 +53,9 @@
     <div><table cellpadding="10"><tr><td></td><td><input type="reset" value="Clear"></td><td><input type="submit" value="submit"></td><td></td></tr></table></div>
 
 
+    {% csrf_token %}
+</form>
+
 <script type="text/javascript">
 function getlabortotal(i)
 {
@@ -77,6 +72,5 @@ function getlabortotal(i)
 }
 
 </script>
-</form>
-{% csrf_token %}
+
 {% endblock %}

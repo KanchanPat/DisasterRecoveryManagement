@@ -110,9 +110,12 @@ def create_timecard(request):
     if request.method == "POST":
         print("got response")
         form= CreateTimeCardForm(request.POST)
+        #sitecode = form.cleaned_data['site_code']
+        #print("sitecode" , sitecode)
         if form.is_valid():
+            print("inside form valid")
             timecard = form.save(commit=False)
-            for i in range(3):
+            for i in range(1):
                 var1 = 'jobcode'+str(i)
                 var2 = 'hoursworked'+str(i)
                 job_list = request.POST.get(var1)
@@ -138,11 +141,6 @@ def create_timecard(request):
                     machineentry = MachineEntry(machine_code_id = qs[0][0], hours_used=hoursused, total=int(qs[0][3]) * int(hoursused),site_code=timecard.site_code)
                     print("machineentry:", machineentry)
                     machineentry.save(force_insert=True)
-    # def get_object(self):
-    #     job_id = self.request.GET.get("pk", "")
-    #     print(job_id)
-    #     return get_object_or_404(Job, id=16)
-
             timecard.save()
             qsjob = JobEntry.objects.filter(site_code=timecard.site_code).aggregate(Sum('hours_worked'),Sum('total'))
             qsMachine = MachineEntry.objects.filter(site_code=timecard.site_code).aggregate(Sum('hours_used'), Sum('total'))
