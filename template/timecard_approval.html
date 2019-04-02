@@ -16,10 +16,9 @@
                 <tr>
                     <td>{{ timesheet.site_code }}</td>
                     <td>{{ timesheet.contractor_name }}</td>
-                    <td>{{ timesheet. }}</td>
-                    <td>{{ job.max_hour_perday }}</td>
-                    <td><a href="{% url 'job_update' job.id %}"> Edit</a></td>
-                    <td><a href="{% url 'job_delete' job.id %}"> Delete</a></td>
+                    <td>{{ timesheet.total_hours }}</td>
+                    <td>{{ timesheet.total_amount }}</td>
+                    <td><a href="{% url 'job_update' timesheet.id %}"> Edit</a></td>
                 </tr>
             {% endfor %}
         </table>

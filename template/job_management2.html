@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% block content %}
     <span style="margin-left:45px;">Job Code Management</span>
     <br><br><br><br><br>
@@ -26,3 +27,6 @@
         </table>
     </div>
 {% endblock %}
+ {% block css %} 
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style1.css' %}">
+ {% endblock %}

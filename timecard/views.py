@@ -17,7 +17,7 @@ from django.views import View
 from DRApp import settings
 from timecard.forms import CreateTimeCardForm#, LaborEntryForm
 from timecard.models import Job, Machine, MachineEntry
-from timecard_details.timecard_details import Timecard_details
+
 
 
 @method_decorator(login_required, name='dispatch')
