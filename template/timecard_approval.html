@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+    <span style="margin-left:45px;">Timesheet Approval</span>
+    <br><br><br><br><br>
+    <div style="float: right;margin-right:22%"><a href="{% url 'job_create' %}"> Add New</a></div>
+    <div style="margin-left:45px;">
+        <table border="1">
+            <tr>
+                <th>Site code</th>
+                <th>Contractor Name</th>
+                <th>Total Hours</th>
+                <th>Total amount</th>
+                <th></th>
+            </tr>
+            {% for timesheet in time_card_list %}
+                <tr>
+                    <td>{{ timesheet.site_code }}</td>
+                    <td>{{ timesheet.contractor_name }}</td>
+                    <td>{{ timesheet. }}</td>
+                    <td>{{ job.max_hour_perday }}</td>
+                    <td><a href="{% url 'job_update' job.id %}"> Edit</a></td>
+                    <td><a href="{% url 'job_delete' job.id %}"> Delete</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
