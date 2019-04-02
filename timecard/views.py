@@ -4,7 +4,7 @@ from django.utils.decorators import method_decorator
 from django.urls.base import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from timecard.models import Timecard, Job, Machine, JobEntry
+from timecard.models import Timecard, Job, Machine
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -44,6 +44,7 @@ class JobUpdate(UpdateView):
     model = Job
     fields = ['job_code', 'description', 'hourly_rate', 'max_hour_perday']
     template_name = 'update_form.html'
+    success_url = reverse_lazy('job_management')
 
 
 def create_timecard(request):
@@ -79,6 +80,10 @@ def create_timecard(request):
                     machineentry = MachineEntry(machine_code_id = qs[0][0], hours_used=hoursused, total=int(qs[0][3]) * int(hoursused),site_code=timecard.site_code)
                     print("machineentry:", machineentry)
                     machineentry.save(force_insert=True)
+    # def get_object(self):
+    #     job_id = self.request.GET.get("pk", "")
+    #     print(job_id)
+    #     return get_object_or_404(Job, id=16)
 
             timecard.save()
             qsjob = JobEntry.objects.filter(site_code=timecard.site_code).aggregate(Sum('hours_worked'),Sum('total'))
@@ -113,6 +118,7 @@ class JobCreate(CreateView):
     model = Job
     fields = ['job_code', 'description', 'hourly_rate', 'max_hour_perday']
     template_name = 'update_form.html'
+    success_url = reverse_lazy('job_management')
 
 
 @method_decorator(login_required, name='dispatch')
@@ -154,30 +160,3 @@ class MachineDelete(DeleteView):
     model = Machine
     template_name = 'delete.html'
     success_url = reverse_lazy('machine_management')
-
-
-def create_timecarddetails(request):
-    # if not request.session.get(settings.TIMECARDDETAILS_SESSION_ID):
-    #     timecarddetails={}
-    #     jobs = Job.objects.all()
-    #     for job in jobs:
-    #         timecarddetails['job'][str(job.id)]['job_code']=job
-    #     request.session[settings.TIMECARDDETAILS_SESSION_ID] = timecarddetails
-    timecarddetails = Timecard_details()
-    if request.method == 'POST':
-        form = CreateTimeCardForm(request.POST)
-        if form.is_valid():
-            timecard = form.save(commit=False)
-            for item in timecarddetails['job_list']:
-                JobEntry.JobEntryFom.create(job_code=item['job_code'],
-                                         hours_worked=item['hours_worked'],
-                                         total=item['total'],
-                                         site_code=timecarddetails['site_code'])
-
-            # redirect to the payment
-            return HttpResponseRedirect('timecard/created.html')
-    else:
-        form = CreateTimeCardForm()
-        return render(request, 'timecard/timecard.html', {'timecarddetails': timecarddetails,
-                                                        'form': form})
-

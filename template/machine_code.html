@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+    <span style="margin-left:45px;">Machine Code Management</span>
+    <br><br><br><br><br>
+    <div style="float: right;margin-right:22%"><a href="{% url 'machine_create' %}"> Add New</a></div>
+    <div style="margin-left:45px;">
+        <table border="1">
+            <tr>
+                <th>Machine code</th>
+                <th>Description</th>
+                <th>Hourly Rent</th>
+                <th>Max Hours per day</th>
+                <th></th>
+                <th></th>
+            </tr>
+            {% for machine in machine_list %}
+                <tr>
+                    <td>{{ machine.job_code }}</td>
+                    <td>{{ machine.description }}</td>
+                    <td>{{ machine.hourly_rate }}</td>
+                    <td>{{ machine.max_hour_perday }}</td>
+                    <td><a href="{% url 'machine_update' machine.id %}"> Edit</a></td>
+                    <td><a href="{% url 'machine_delete' machine.id %}"> Delete</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

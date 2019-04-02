@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Disaster Rocovery Applucatuon</title>
+</head>
+<body>
+{% for foo in job_list %}
+{#    <p>job code:{% if not user.is_superuser %}{{ foo.job_code }}{% endif %}<p>#}
+    <p>job code:{{ foo.job_code }}<p>
+    <p>description:{{ foo.description }}<p>
+    <p>hourly_rate:{% widthratio foo.hourly_rate foo.max_hour_perday 100 %}<p>
+    <p>max_hour_perday:{{ foo.max_hour_perday }}<p>
+{% endfor %}
+</body>
+</html>
