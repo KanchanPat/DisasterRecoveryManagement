@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head> 
+    <meta charset="utf-8">
+     
+    <title>Disaster Recovery Application</title> 
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div class="title">
+            <h3 style="margin-top:0.5px;margin-bottom: 2%">Disaster Recovery Application<span style="float: right">Username</span>
+            </h3>
+        </div>
+    </div>
+
+    <div id="menu" style="background-color:#ffffff;float:left;">
+        <div>
+            <nav>
+                <a href="{% url 'job_management' %}">Job code management</a><br><br>
+                <a href="{% url 'machine_management' %}">Machine management</a><br><br>
+                <br><br>
+                <a href="{% url 'job_management' %}">Timecard approval</a>
+            </nav>
+        </div>
+
+    </div>
+
+    <div id="content" style="background-color:#ffffff;height:auto;width:auto;float:left;">
+        {% block content %}{% endblock %}</div>
+
+
+</div>
+
+</body>
+</html>

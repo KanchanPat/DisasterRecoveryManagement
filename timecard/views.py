@@ -26,11 +26,12 @@ class JobUpdate(UpdateView):
     model = Job
     fields = ['job_code', 'description', 'hourly_rate', 'max_hour_perday']
     template_name = 'update_form.html'
+    success_url = reverse_lazy('job_management')
 
-    def get_object(self):
-        job_id = self.request.GET.get("pk", "")
-        print(job_id)
-        return get_object_or_404(Job, id=job_id)
+    # def get_object(self):
+    #     job_id = self.request.GET.get("pk", "")
+    #     print(job_id)
+    #     return get_object_or_404(Job, id=16)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -38,6 +39,7 @@ class JobCreate(CreateView):
     model = Job
     fields = ['job_code', 'description', 'hourly_rate', 'max_hour_perday']
     template_name = 'update_form.html'
+    success_url = reverse_lazy('job_management')
 
 
 @method_decorator(login_required, name='dispatch')
@@ -46,32 +48,31 @@ class JobDelete(DeleteView):
     template_name = 'delete.html'
     success_url = reverse_lazy('job_management')
 
-    def get_object(self):
-        job_id = self.request.POST.get("pk", False)
-        obj = get_object_or_404(Job, pk=int(job_id))
-        return obj
+    # def get_object(self):
+    #     job_id = self.request.POST.get("pk", False)
+    #     obj = get_object_or_404(Job, pk=int(job_id))
+    #     return obj
 
 
 @method_decorator(login_required, name='dispatch')
 class MachineList(ListView):
     model = Machine
     context_object_name = 'machine_list'
-    template_name = 'update_form.html'
+    template_name = 'machine_code.html'
 
 
 @method_decorator(login_required, name='dispatch')
 class MachineUpdate(UpdateView):
     model = Machine
-    template_name = ''
-
-    def get_object(self):
-        return get_object_or_404(Machine, machine_code='plumber')
+    fields = ['machine_code', 'description', 'hourly_rent', 'max_hour_perday']
+    template_name = 'update_form.html'
 
 
 @method_decorator(login_required, name='dispatch')
 class MachineCreate(CreateView):
     model = Machine
-    template_name = ''
+    template_name = 'update_form.html'
+    success_url = reverse_lazy('machine_management')
 
 
 @method_decorator(login_required, name='dispatch')

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <title>Disaster Recovery Application</title>
+    {#	<link rel="stylesheet" type="text/css" href="{% static 'css/style1.css' %}">#}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="row col-12">
+        <div class="col-md-10">
+            <a class="navbar-brand" href="#">Disaster Recovery Application : Timecard Submission</a>
+        </div>
+        <div class="col-md-2">
+            <b>Username</b><i class="material-icons">person</i>
+        </div>
+    </div>
+
+
+</nav>
+
+<div class="row col-md-12 mt-5" style="margin:auto">
+    <div class="col-4">
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#job_code_management"
+               role="tab" aria-controls="v-pills-home" aria-selected="true">Job code management</a>
+            <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#machine_management"
+               role="tab" aria-controls="v-pills-profile" aria-selected="false">Machine management</a>
+            <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="{% url 'job_management' %}"
+               role="tab" aria-controls="v-pills-messages" aria-selected="false">Timecard approval</a>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="job_code_management" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                {% include 'job_management.html' %}
+            </div>
+            <div class="tab-pane fade show active" id="machine_management" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                {% url 'machine_management' %}
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+

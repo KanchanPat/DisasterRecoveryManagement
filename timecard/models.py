@@ -20,23 +20,23 @@ class Job(models.Model):
     max_hour_perday = models.IntegerField(null=False)
 
     def get_absolute_url(self):
-        return reverse('job_management')
+        return reverse('job_management', kwargs={'pk': self.pk})
 
     def __str__(self):
         return self.job_code
 
 
 class Machine(models.Model):
-    machine_code = models.CharField(max_length=10, null=False)
+    machine_code = models.CharField(max_length=25, null=False)
     description = models.CharField(max_length=100, null=False)
     hourly_rent = models.IntegerField(default=0)
     max_hour_perday = models.IntegerField(null=False)
 
     def get_absolute_url(self):
-        return reverse('machine_management')
+        return reverse('machine_management', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return  self.machine_code
+        return self.machine_code
 
 
 class Timecard_Details(models.Model):

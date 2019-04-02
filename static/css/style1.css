@@ -1,0 +1,14 @@
+.container{
+    width:98%;
+    margin: auto;
+}
+
+.menuu{
+    background-color: darkblue;
+    height: 30px;
+    padding: 15px;
+    color: white;
+}
+.side-nav{
+    background-color: lightblue;
+}

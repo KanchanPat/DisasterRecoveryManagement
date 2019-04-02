@@ -27,8 +27,8 @@ urlpatterns = [
     path('job_create/', JobCreate.as_view(), name='job_create'),
     path('job_delete/<int:pk>/', JobDelete.as_view(), name='job_delete'),
     path('machine_management/', MachineList.as_view(), name='machine_management'),
-    path('machine_update/', JobUpdate.as_view(), name='machine_update'),
-    path('machine_create/', JobCreate.as_view(), name='machine_create'),
-    path('machine_delete/', JobDelete.as_view(), name='machine_delete'),
+    path('machine_update/<int:pk>/', MachineUpdate.as_view(), name='machine_update'),
+    path('machine_create/', MachineCreate.as_view(), name='machine_create'),
+    path('machine_delete/<int:pk>/', MachineDelete.as_view(), name='machine_delete'),
     path('timecard_approval/', TimeCardList.as_view(), name='timecard_approval' ),
 ]
