@@ -32,7 +32,7 @@ urlpatterns = [
     path('machine_update/<int:pk>/', MachineUpdate.as_view(), name='machine_update'),
     path('machine_create/', MachineCreate.as_view(), name='machine_create'),
     path('machine_delete/<int:pk>/', MachineDelete.as_view(), name='machine_delete'),
-    path('timecard_management/', TimeCardList.as_view(), name='timecard_management' ),
+    path('timecard_management/', TimeCardList.as_view(), name='timecard_management'),
     path('timecard/',views.create_timecard,name='timecard'),
     # path('timecard_submission/',)
 ]

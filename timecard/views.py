@@ -4,18 +4,15 @@ from django.utils.decorators import method_decorator
 from django.urls.base import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from timecard.models import Timecard, Job, Machine
+from timecard.models import Timecard
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-
-# Create your views here.
-from django.urls import reverse
 from django.views import View
 
 from DRApp import settings
-from timecard.forms import CreateTimeCardForm#, LaborEntryForm
+from timecard.forms import CreateTimeCardForm
 from timecard.models import Job, Machine, MachineEntry
 
 
@@ -27,6 +24,7 @@ class TimeCardList(ListView):
     template_name = 'timecard_management.html'
 
 
+
 @method_decorator(login_required, name='dispatch')
 class JobList(ListView):
     model = Job
@@ -35,7 +33,7 @@ class JobList(ListView):
 
     def get_object(self):
         job_id = self.request.GET.get("pk", "")
-        print(job_id)
+        #print(job_id)
         return get_object_or_404(Job, id=job_id)
 
 
@@ -153,7 +151,7 @@ def create_timecard(request):
         job_list = Job.objects.all()
         machine_list = Machine.objects.all()
 
-        return render(request,'timecard/timecard.html',
+        return render(request,'timecard.html',
                   context={'form':form,
                            'job_list':job_list,
                             'machine_list':machine_list})
