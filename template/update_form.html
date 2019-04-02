@@ -6,10 +6,10 @@
 </head>
 <body>
 {% if user.is_superuser %}
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input class="btn btn-default" type="submit" value="confirm" />
-</form>
+    <form method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <input class="btn btn-default" type="submit" value="confirm"/>
+    </form>
 {% endif %}
 </body>
 </html>

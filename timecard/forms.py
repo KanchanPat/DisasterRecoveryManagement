@@ -6,7 +6,8 @@ from timecard.models import Timecard, Job, JobEntry, MachineEntry
 class CreateTimeCardForm(forms.ModelForm):
     class Meta:
         model = Timecard
-        fields = ['site_code','contractor_name','date']
+        fields = ['site_code','contractor_name','date', 'status']
+        status = forms.ChoiceField(choices=(('open', 'open'), ('review', 'finalize'), ('finalize', 'finalize')))
         # exclude = []
 
 class JobEntryFom(forms.ModelForm):

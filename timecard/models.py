@@ -35,6 +35,7 @@ class Timecard(models.Model):
     site_code = models.CharField(max_length=50, null=False)
     contractor_name = models.CharField(max_length=50, null=False)
     date = models.DateTimeField(null=False, default=datetime.now())
+    status = models.CharField(choices=(('open', 'open'), ('review', 'review'), ('finalized', 'finalized')),default='',max_length=10)
     status = models.CharField(choices=(('open', 'open'), ('review', 'review'), ('Finallized', 'Finallized')),default='open',max_length=10)
     total_hours = models.IntegerField(default=0)
     total_amount = models.IntegerField(default=0)

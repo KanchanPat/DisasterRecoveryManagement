@@ -18,7 +18,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 
 from timecard import views
-from timecard.views import JobList, JobUpdate, JobCreate, JobDelete, TimeCardList
+from timecard.views import JobList, JobUpdate, JobCreate, JobDelete, TimeCardList,  StatusUpdateView
 from timecard.views import MachineList, MachineCreate, MachineUpdate, MachineDelete
 
 urlpatterns = [
@@ -32,7 +32,7 @@ urlpatterns = [
     path('machine_update/<int:pk>/', MachineUpdate.as_view(), name='machine_update'),
     path('machine_create/', MachineCreate.as_view(), name='machine_create'),
     path('machine_delete/<int:pk>/', MachineDelete.as_view(), name='machine_delete'),
-    path('timecard_management/', TimeCardList.as_view(), name='timecard_management'),
-    path('timecard/',views.create_timecard,name='timecard'),
-    # path('timecard_submission/',)
+    path('timecard_management/', TimeCardList.as_view(), name='timecard_management' ),
+    path('status_update/<int:pk>/', StatusUpdateView.as_view(), name='status_update'),
+    path('timecard/<int:pk>/',views.create_timecard,name='timecard')
 ]

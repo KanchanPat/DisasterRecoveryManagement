@@ -8,6 +8,8 @@ from timecard.models import Timecard
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from .models import JobEntry, MachineEntry
+from .forms import CreateTimeCardForm
 
 from django.views import View
 
@@ -23,6 +25,14 @@ class TimeCardList(ListView):
     context_object_name = 'time_card_list'
     template_name = 'timecard_management.html'
 
+
+
+@method_decorator(login_required, name='dispatch')
+class StatusUpdateView(UpdateView):
+    model = Timecard
+    fields = ['status']
+    template_name = 'update_form.html'
+    success_url = reverse_lazy('timecard_management')
 
 
 @method_decorator(login_required, name='dispatch')
@@ -192,9 +202,8 @@ class MachineList(ListView):
 class MachineUpdate(UpdateView):
     model = Machine
     template_name = 'update_form.html'
-
-    def get_object(self):
-        return get_object_or_404(Machine, machine_code='plumber')
+    fields = ['machine_code', 'description', 'hourly_rent', 'max_hour_perday']
+    success_url = reverse_lazy('machine_management')
 
 
 @method_decorator(login_required, name='dispatch')

@@ -1,8 +1,8 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% block content %}
     <span style="margin-left:45px;">Timesheet Management</span>
     <br><br><br><br><br>
-    <div style="float: right;margin-right:22%"><a href="{% url 'timecard.html' %}">Enter New Timesheet</a></div>
     <div style="margin-left:45px;">
         <table border="1">
             <tr>
@@ -10,7 +10,7 @@
                 <th>Contractor Name</th>
                 <th>Total Hours</th>
                 <th>Total amount</th>
-                <th>Status</th>
+                <th></th>
             </tr>
             {% for timesheet in time_card_list %}
                 <tr>
@@ -18,9 +18,12 @@
                     <td>{{ timesheet.contractor_name }}</td>
                     <td>{{ timesheet.total_hours }}</td>
                     <td>{{ timesheet.total_amount }}</td>
-                    <td><a href="{% url 'job_update' timesheet.id %}"> Edit</a></td>
+                    <td><a href="{% url 'status_update' timesheet.id %}"> {{ timesheet.status }}</a></td>
                 </tr>
             {% endfor %}
         </table>
     </div>
+{% endblock %}
+{% block css %} 
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style1.css' %}">
 {% endblock %}
