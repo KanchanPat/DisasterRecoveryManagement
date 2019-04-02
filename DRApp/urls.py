@@ -23,7 +23,7 @@ from timecard.views import MachineList, MachineCreate, MachineUpdate, MachineDel
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', LoginView.as_view(), name='login'),
+    path('', LoginView.as_view(), name='login'),
     path('job_management/', JobList.as_view(), name='job_management'),
     path('job_update/<int:pk>/', JobUpdate.as_view(), name='job_update'),
     path('job_create/', JobCreate.as_view(), name='job_create'),
@@ -34,5 +34,5 @@ urlpatterns = [
     path('machine_delete/<int:pk>/', MachineDelete.as_view(), name='machine_delete'),
     path('timecard_approval/', TimeCardList.as_view(), name='timecard_approval' ),
     path('timecard/',views.create_timecard,name='timecard'),
-    #path('timecarddetails/',views.create_timecarddetails,name='timecarddetails'),
+    # path('timecard_submission/',)
 ]

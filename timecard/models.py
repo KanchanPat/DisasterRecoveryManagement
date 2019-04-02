@@ -45,6 +45,7 @@ class Timecard(models.Model):
     def __str__(self):
         return self.site_code
 
+
 class JobEntry(models.Model):
     job_code = models.ForeignKey(Job, on_delete='casscade')
     hours_worked = models.IntegerField(default=0)

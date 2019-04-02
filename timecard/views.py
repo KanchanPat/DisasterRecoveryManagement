@@ -4,7 +4,7 @@ from django.utils.decorators import method_decorator
 from django.urls.base import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from timecard.models import Timecard, Job, Machine, JobEntry
+from timecard.models import Timecard, Job, Machine
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -17,6 +17,8 @@ from django.views import View
 from DRApp import settings
 from timecard.forms import CreateTimeCardForm#, LaborEntryForm
 from timecard.models import Job, Machine, MachineEntry
+
+
 
 @method_decorator(login_required, name='dispatch')
 class TimeCardList(ListView):
@@ -96,6 +98,7 @@ class TimecardList(ListView):
     template_name = 'timecard_management.html'
 
 def create_timecard(request):
+
     if request.method == "POST":
         print("got response")
         form= CreateTimeCardForm(request.POST)
@@ -155,3 +158,56 @@ def create_timecard(request):
                            'job_list':job_list,
                             'machine_list':machine_list})
 
+
+class JobCreateView(View):
+    def post(self, request):
+        pass
+
+@method_decorator(login_required, name='dispatch')
+class JobCreate(CreateView):
+    model = Job
+    fields = ['job_code', 'description', 'hourly_rate', 'max_hour_perday']
+    template_name = 'update_form.html'
+    success_url = reverse_lazy('job_management')
+
+
+@method_decorator(login_required, name='dispatch')
+class JobDelete(DeleteView):
+    model = Job
+    template_name = 'delete.html'
+    success_url = reverse_lazy('job_management')
+
+    def get_object(self):
+        job_id = self.request.POST.get("pk", False)
+        obj = get_object_or_404(Job, pk=int(job_id))
+        return obj
+
+
+@method_decorator(login_required, name='dispatch')
+class MachineList(ListView):
+    model = Machine
+    context_object_name = 'machine_list'
+    template_name = 'machine_management.html'
+
+
+@method_decorator(login_required, name='dispatch')
+class MachineUpdate(UpdateView):
+    model = Machine
+    template_name = 'update_form.html'
+
+    def get_object(self):
+        return get_object_or_404(Machine, machine_code='plumber')
+
+
+@method_decorator(login_required, name='dispatch')
+class MachineCreate(CreateView):
+    model = Machine
+    template_name = 'update_form.html'
+    fields = ['machine_code', 'description', 'hourly_rent', 'max_hour_perday']
+
+
+@method_decorator(login_required, name='dispatch')
+class MachineDelete(DeleteView):
+    model = Machine
+    template_name = 'delete.html'
+    success_url = reverse_lazy('machine_management')
