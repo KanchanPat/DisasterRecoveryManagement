@@ -115,7 +115,7 @@ def create_timecard(request):
         if form.is_valid():
             print("inside form valid")
             timecard = form.save(commit=False)
-            for i in range(1):
+            for i in range(3):
                 var1 = 'jobcode'+str(i)
                 var2 = 'hoursworked'+str(i)
                 job_list = request.POST.get(var1)
@@ -146,12 +146,25 @@ def create_timecard(request):
             qsMachine = MachineEntry.objects.filter(site_code=timecard.site_code).aggregate(Sum('hours_used'), Sum('total'))
             print("qsjob = ", qsjob)
             print("qsMachine=", qsMachine)
-            total_hours=int(qsjob['hours_worked__sum'])+int(qsMachine['hours_used__sum'])
-            total_amount=int(qsjob['total__sum'])+int(qsMachine['total__sum'])
+            if qsjob['hours_worked__sum'] == None:
+                hour1 = 0
+            else: hour1 = qsjob['hours_worked__sum']
+            if qsMachine['hours_used__sum'] == None:
+                hour2=0
+            else: hour2=qsMachine['hours_used__sum']
+            if qsjob['total__sum'] == None:
+                amount1 = 0
+            else : amount1=qsjob['total__sum']
+            if qsMachine['total__sum'] == None:
+                amount2 = 0
+            else : amount2 = qsMachine['total__sum']
+
+            total_hours=int(hour1)+int(hour2)
+            total_amount=int(amount1)+int(amount2)
             Timecard.objects.filter(site_code=timecard.site_code).update(total_hours=total_hours,total_amount=total_amount)
             print("total_hours = ",total_hours, total_amount)
 
-        return HttpResponseRedirect('timecard_management.html')
+        return HttpResponseRedirect('/timecard_management')
     else:
         form = CreateTimeCardForm()
         #jobform = JobEntryForm()
