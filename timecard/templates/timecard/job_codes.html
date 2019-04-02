@@ -1,0 +1,14 @@
+{% block content %}
+
+
+<select name="jobcode">
+    {% for job in jobListContext %}
+    <option value="{{job.id}}"> {{job.job_code}}</option>
+
+<br> Hrs. worked <input type="text" name="hours">
+<br>Total : <text name="total" value="{{ job.hourly_rate }}">{% widthratio job.hourly_rate 5 100 as width %}</text>
+
+{% endfor %}
+</select>
+
+{% endblock %}
