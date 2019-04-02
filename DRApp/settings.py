@@ -86,7 +86,7 @@ DATABASES = {
         },
     }
 }
-LOGIN_REDIRECT_URL = '/timecard_approval/'
+LOGIN_REDIRECT_URL = '/timecard_management'
 TIMECARDDETAILS_SESSION_ID = 'y'
 
 # Password validation
