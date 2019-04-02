@@ -87,7 +87,7 @@ DATABASES = {
     }
 }
 LOGIN_REDIRECT_URL = '/'
-TIMECARDDETAILS_SESSION_ID = 'timecarddetails'
+TIMECARDDETAILS_SESSION_ID = 'y'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

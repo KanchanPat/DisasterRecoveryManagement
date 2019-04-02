@@ -4,4 +4,4 @@ from .models import *
 admin.site.register(Job)
 admin.site.register(Machine)
 admin.site.register(Timecard)
-admin.site.register(Timecard_Details)
+#admin.site.register(Timecard_Details)

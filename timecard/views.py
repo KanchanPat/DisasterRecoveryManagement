@@ -1,20 +1,24 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
 from django.utils.decorators import method_decorator
 from django.urls.base import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from timecard.models import Timecard, Job, Machine
+from timecard.models import Timecard, Job, Machine, JobEntry
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+
 
 # Create your views here.
 from django.urls import reverse
 from django.views import View
 
 from DRApp import settings
-from timecard.forms import CreateTimeCardForm, LaborEntryForm
+from timecard.forms import CreateTimeCardForm#, LaborEntryForm
 from timecard.models import Job, Machine, MachineEntry
+from timecard_details.timecard_details import Timecard_details
+
 
 @method_decorator(login_required, name='dispatch')
 class TimeCardList(ListView):
@@ -41,53 +45,50 @@ class JobUpdate(UpdateView):
     fields = ['job_code', 'description', 'hourly_rate', 'max_hour_perday']
     template_name = 'update_form.html'
 
-# self.session = request.session
-#     # GET timecarddetails FROM SESSION OBJECT
-#     timecarddetails = self.session.get(settings.TIMECARDDETAILS_SESSION_ID)
-#     #  IF timecarddetails DOES NOT EXIST IN SESSION , CREATE NEW
-#     if not timecarddetails:
-#         self.session[settings.TIMECARDDETAILS_SESSION_ID] = {}
-#         timecarddetails = self.session[settings.TIMECARDDETAILS_SESSION_ID]
-#         jobs = Job.objects.all()
-#         for job in jobs:
-#             self.timecarddetails['job'][str(job.id)]['job_code']=job
-#     self.timecarddetails = timecarddetails
-
-
-
-class JobEntryForm(object):
-    pass
-
 
 def create_timecard(request):
-    # if not request.session.get(settings.TIMECARDDETAILS_SESSION_ID):
-    #     timecarddetails={}
-    #     jobs = Job.objects.all()
-    #     for job in jobs:
-    #         timecarddetails['job'][str(job.id)]['job_code']=job
-    #     request.session[settings.TIMECARDDETAILS_SESSION_ID] = timecarddetails
+
     if request.method == "POST":
         print("got response")
         form= CreateTimeCardForm(request.POST)
         if form.is_valid():
             timecard = form.save(commit=False)
+            for i in range(3):
+                var1 = 'jobcode'+str(i)
+                var2 = 'hoursworked'+str(i)
+                job_list = request.POST.get(var1)
+                hoursworked = request.POST.get(var2)
+                print("hoursworked:", hoursworked)
+                print("job_list:", job_list)
+                if int(job_list) >0:
+                    qs = Job.objects.filter(id=job_list).values_list()
+                    jobentry = JobEntry(job_code_id=qs[0][0], hours_worked=hoursworked,
+                                                total=int(qs[0][3]) * int(hoursworked), site_code=timecard.site_code)
+                    print("jobentry:", jobentry)
+                    jobentry.save(force_insert=True)
+
+            for i in range(3):
+                var1 = 'machinecode'+str(i)
+                var2 = 'hoursused'+str(i)
+                machine_list = request.POST.get(var1)
+                hoursused = request.POST.get(var2)
+                print("machine_list:",machine_list)
+                print("hoursused:", hoursused)
+                if int(machine_list) > 0:
+                    qs = Machine.objects.filter(id=machine_list).values_list()
+                    machineentry = MachineEntry(machine_code_id = qs[0][0], hours_used=hoursused, total=int(qs[0][3]) * int(hoursused),site_code=timecard.site_code)
+                    print("machineentry:", machineentry)
+                    machineentry.save(force_insert=True)
+
             timecard.save()
-            job_list = request.POST.get("jobcode")
-            hourwork = request.POST.get('hoursworked', '')
-            print("hourwork:", hourwork)
-            print("job_list:", job_list)
-
-            machine_list = request.POST.get("machinecode")
-            hoursused = request.POST.get("hoursused")
-
-            #form.save()
-            print("machine_list:",machine_list)
-            print("hoursused:", hoursused)
-            qs = Machine.objects.filter(id=machine_list)
-            #machineentry = MachineEntry(machine_code=qs.machine_code,hours_useded=hoursused,total=int(qs.hourly_rent)*int(hoursused))
-            #machineentry = MachineEntry(qs[0], hours_useded=hoursused, total=int(qs[2]) * int(hoursused))
-            print("machineentry:", qs.machine_code, hoursused)
-            #machineentry.save()
+            qsjob = JobEntry.objects.filter(site_code=timecard.site_code).aggregate(Sum('hours_worked'),Sum('total'))
+            qsMachine = MachineEntry.objects.filter(site_code=timecard.site_code).aggregate(Sum('hours_used'), Sum('total'))
+            print("qsjob = ", qsjob)
+            print("qsMachine=", qsMachine)
+            total_hours=int(qsjob['hours_worked__sum'])+int(qsMachine['hours_used__sum'])
+            total_amount=int(qsjob['total__sum'])+int(qsMachine['total__sum'])
+            Timecard.objects.filter(site_code=timecard.site_code).update(total_hours=total_hours,total_amount=total_amount)
+            print("total_hours = ",total_hours, total_amount)
 
         return HttpResponseRedirect('timecard/created.html')
     else:
@@ -153,3 +154,30 @@ class MachineDelete(DeleteView):
     model = Machine
     template_name = 'delete.html'
     success_url = reverse_lazy('machine_management')
+
+
+def create_timecarddetails(request):
+    # if not request.session.get(settings.TIMECARDDETAILS_SESSION_ID):
+    #     timecarddetails={}
+    #     jobs = Job.objects.all()
+    #     for job in jobs:
+    #         timecarddetails['job'][str(job.id)]['job_code']=job
+    #     request.session[settings.TIMECARDDETAILS_SESSION_ID] = timecarddetails
+    timecarddetails = Timecard_details()
+    if request.method == 'POST':
+        form = CreateTimeCardForm(request.POST)
+        if form.is_valid():
+            timecard = form.save(commit=False)
+            for item in timecarddetails['job_list']:
+                JobEntry.JobEntryFom.create(job_code=item['job_code'],
+                                         hours_worked=item['hours_worked'],
+                                         total=item['total'],
+                                         site_code=timecarddetails['site_code'])
+
+            # redirect to the payment
+            return HttpResponseRedirect('timecard/created.html')
+    else:
+        form = CreateTimeCardForm()
+        return render(request, 'timecard/timecard.html', {'timecarddetails': timecarddetails,
+                                                        'form': form})
+
