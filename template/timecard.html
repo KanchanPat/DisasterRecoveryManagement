@@ -1,53 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-
-
-<body>
-     <form action="." method="post" >
-
-        {{ form.as_p }}
-
-
+{% extends "base.html" %}
+{% block content %}
+<form>
+    <span style="margin-left:45px;"><b>Timesheet Submission</b></span>
+    <br><br>
+    <div style="margin-left:45px;">
+        <table  cellpadding="8">
+            <tr>
+                <td>Site Code: </td><td>{{form.site_code}}</td>
+                <td>Contractor Name: </td><td>{{form.contractor_name}}</td>
+                <td>Date: </td><td>{{form.date}}</td>
+            </tr>
+        </table>
+    </div>
+    <br><br>
+    <span style="margin-left:45px;"><b>Job Entry</b></span>
+    <div style="margin-left:45px;">
+        <table  cellpadding="8">
 
          {% for i in '012'|make_list %}
+             <tr>
+                <td >
          {% if job_list %}
             <select name="jobcode{{i}}">
                 <option value="0" selected>Select Job</option>
             {% for job in job_list %}
                 <option value="{{job.pk}}"> {{job.job_code}}</option>
             {% endfor %}
-            </select>
-            Hrs. worked <input type="text" name="hoursworked{{i}}" onchange="getlabortotal({{i}});">
+            </select></td><td >
+            Hrs. worked <input type="text" name="hoursworked{{i}}" onchange="getlabortotal({{i}});"></td><td>
             Total : <text name="total{{i}}" value="{{ job.hourly_rate }}">{% widthratio job.hourly_rate 5 100 as width %}</text>
          {% endif %}
-         <br>
+            </td></tr>
          {% endfor %}
-
-         <br>
+        </table>
+    </div>
+    <br><br>
+    <span style="margin-left:45px;"><B>Machine Entry</B></span>
+        <div style="margin-left:45px;">
+        <table  cellpadding="8">
 
          {% for i in '012'|make_list %}
+            <tr>
+                <td>
          {% if machine_list %}
             <select name="machinecode{{i}}">
                 <option value="0" selected>Select Machine</option>
             {% for machine in machine_list %}
                 <option value="{{machine.id}}"> {{ machine.machine_code}}</option>
             {% endfor %}
-            </select>
-            Hrs. worked <input type="text" name="hoursused{{i}}">
-            Total : <text name="machinetotal{{i}}" value="{{ machine.hourly_rate }}">{% widthratio job.hourly_rate 5 100 as width %}</text>
+            </select></td><td>
+            Hrs. worked <input type="text" name="hoursused{{i}}"></td><td>
+            Total : <text name="machinetotal{{i}}" value="{{ machine.hourly_rate }}"></text>
          {% endif %}
-         <br>
+            </td></tr>
          {% endfor %}
 
+        </table>
+        </div>
+        <br><br>
+    <div><table cellpadding="10"><tr><td></td><td><input type="reset" value="Clear"></td><td><input type="submit" value="submit"></td><td></td></tr></table></div>
 
-
-
-        <p><table><tr><td><input type="submit" value="Clear"></td><td><input type="submit" value="submit"></td></tr></table>
-        {% csrf_token %}
 
 <script type="text/javascript">
 function getlabortotal(i)
@@ -65,6 +77,6 @@ function getlabortotal(i)
 }
 
 </script>
-    </form>
-</body>
-</html>
+</form>
+{% csrf_token %}
+{% endblock %}

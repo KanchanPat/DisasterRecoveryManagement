@@ -34,7 +34,7 @@ class JobEntryFom(forms.ModelForm):
 #     #         'job': jobs,
 #     #
 #     #     }
-#
+#choices = ['open','review','fi]
 #     jobcode = forms.ChoiceField(choices=[(choice.pk,choice) for choice in Job.objects.all()])
 #     hours = forms.IntegerField()
 #     total = forms.IntegerField()
