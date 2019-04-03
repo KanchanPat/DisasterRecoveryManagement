@@ -3,6 +3,8 @@
 {% block content %}
     <span style="margin-left:45px;">Timesheet Management</span>
     <br><br><br><br><br>
+    <div style="float: right;"><a href="{% url 'timecard' %}">
+    {% if not user.is_superuser %}Enter new timesheet{% endif %}</a></div>
     <div style="margin-left:45px;">
         <table border="1">
             <tr>
@@ -18,7 +20,12 @@
                     <td>{{ timesheet.contractor_name }}</td>
                     <td>{{ timesheet.total_hours }}</td>
                     <td>{{ timesheet.total_amount }}</td>
-                    <td><a href="{% url 'status_update' timesheet.id %}"> {{ timesheet.status }}</a></td>
+                    <td>{% if user.is_superuser %}
+                        <a href="{% url 'status_update' timesheet.id %}"> {{ timesheet.status }}</a>
+                        {% else %}
+                        <b href="{% url 'status_update' timesheet.id %}"> {{ timesheet.status }}</b>
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
         </table>
