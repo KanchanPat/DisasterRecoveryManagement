@@ -196,10 +196,6 @@ class JobDelete(DeleteView):
     template_name = 'delete.html'
     success_url = reverse_lazy('job_management')
 
-    def get_object(self):
-        job_id = self.request.POST.get("pk", False)
-        obj = get_object_or_404(Job, pk=int(job_id))
-        return obj
 
 
 @method_decorator(login_required, name='dispatch')

@@ -24,6 +24,9 @@
         </table>
     </div>
     <br><br>
+    <div style="float: right; font-size: 13pt ">
+        {% if not user.is_superuser %}<a href="{% url 'timecard' %}"> Enter new timesheet</a>{% endif %}
+    </div>
 {% endblock %}
 {% block css %} 
     <link rel="stylesheet" type="text/css" href="{% static 'css/style1.css' %}">

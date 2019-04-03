@@ -20,7 +20,7 @@
     <div class="header" style="background-color:lightblue;color:Black">
         <div class="title">
             <h3 style="font-size:25pt;padding:5px">Disaster Recovery Application<span style="float:right;font-size:13pt">
-                {{ user.username }}{% if user.is_superuser %}(Admin){% endif %}</span>
+                <a href="{% url 'logout' %}">{{ user.username }}{% if user.is_superuser %}(Admin)</a>{% endif %}</span>
             </h3>
         </div>
     </div>
@@ -34,7 +34,7 @@
                     <a href="{% url 'timecard_management' %}">Timecard Management</a>
                 {% endif %}
                 {% if not user.is_superuser %}
-                    <a href="{% url 'timecard_submission' %}">Job code management</a><br><br>
+                    <a href="{% url 'timecard_management' %}">Timecard Management</a><br><br>
                 {% endif %}
             </nav>
         </div>
