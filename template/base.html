@@ -17,24 +17,25 @@
 
 <div class="container">
 
-    <div class="header">
+    <div class="header" style="background-color:lightblue;color:Black">
         <div class="title">
-            <h3 style="margin-top:0.5px;margin-bottom: 2%">Disaster Recovery Application
-                <a style="float: right" href="{% url 'logout' %}">
-                {{ user.username }}{% if user.is_superuser %}(Admin){% endif %}</a>
+            <h3 style="font-size:25pt;padding:5px">Disaster Recovery Application<span style="float:right;font-size:13pt">
+                {{ user.username }}{% if user.is_superuser %}(Admin){% endif %}</span>
             </h3>
         </div>
     </div>
 
-    <div id="menu" style="background-color:#ffffff;float:left;">
+    <div id="menu" style="background-color:#ffffff;float:left;font-size:13pt">
         <div>
             <nav>
                 {% if user.is_superuser %}
                     <a href="{% url 'job_management' %}">Job code management</a><br><br>
                     <a href="{% url 'machine_management' %}">Machine management</a><br><br>
-                    <br><br>
+                    <a href="{% url 'timecard_management' %}">Timecard Management</a>
                 {% endif %}
-                <a href="{% url 'timecard_management' %}">Timecard Management</a>
+                {% if not user.is_superuser %}
+                    <a href="{% url 'timecard_submission' %}">Job code management</a><br><br>
+                {% endif %}
             </nav>
         </div>
 
@@ -47,4 +48,5 @@
 </div>
 
 </body>
+
 </html>

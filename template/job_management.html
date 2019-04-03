@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block content %}
-    <span style="margin-left:45px;">Job Code Management</span>
-    <br><br><br><br><br>
-    <div style="float: right;margin-right:22%"><a href="{% url 'job_create' %}"> Add New</a></div>
+    <span style="margin-left:45px; font-size: 15pt">Job Management</span>
+    <br><br><br>
+
     <div style="margin-left:45px;">
         <table border="1">
             <tr>
@@ -26,6 +26,8 @@
             {% endfor %}
         </table>
     </div>
+    <br><br>
+    <div style="float: right; font-size: 13pt "><a href="{% url 'job_create' %}"> Add New</a></div>
 {% endblock %}
  {% block css %} 
     <link rel="stylesheet" type="text/css" href="{% static 'css/style1.css' %}">

@@ -66,7 +66,7 @@ class JobCreate(CreateView):
 class JobDelete(DeleteView):
     model = Job
     template_name = 'delete.html'
-    success_url = reverse_lazy('job_management')
+    success_url = reverse_lazy('job_management.html')
 
 
 @method_decorator(login_required, name='dispatch')
@@ -110,12 +110,15 @@ def create_timecard(request):
     if request.method == "POST":
         print("got response")
         form= CreateTimeCardForm(request.POST)
+        #sitecode = form.cleaned_data['site_code']
+        #print("sitecode" , sitecode)
         if form.is_valid():
+            print("inside form valid")
             timecard = form.save(commit=False)
             for i in range(3):
                 var1 = 'jobcode'+str(i)
                 var2 = 'hoursworked'+str(i)
-                job_list = request.POST.get(var1)
+                job_list = request.POST.get(var1).split('|')[0]
                 hoursworked = request.POST.get(var2)
                 print("hoursworked:", hoursworked)
                 print("job_list:", job_list)
@@ -129,7 +132,7 @@ def create_timecard(request):
             for i in range(3):
                 var1 = 'machinecode'+str(i)
                 var2 = 'hoursused'+str(i)
-                machine_list = request.POST.get(var1)
+                machine_list = request.POST.get(var1).split('|')[0]
                 hoursused = request.POST.get(var2)
                 print("machine_list:",machine_list)
                 print("hoursused:", hoursused)
@@ -138,22 +141,30 @@ def create_timecard(request):
                     machineentry = MachineEntry(machine_code_id = qs[0][0], hours_used=hoursused, total=int(qs[0][3]) * int(hoursused),site_code=timecard.site_code)
                     print("machineentry:", machineentry)
                     machineentry.save(force_insert=True)
-    # def get_object(self):
-    #     job_id = self.request.GET.get("pk", "")
-    #     print(job_id)
-    #     return get_object_or_404(Job, id=16)
-
             timecard.save()
             qsjob = JobEntry.objects.filter(site_code=timecard.site_code).aggregate(Sum('hours_worked'),Sum('total'))
             qsMachine = MachineEntry.objects.filter(site_code=timecard.site_code).aggregate(Sum('hours_used'), Sum('total'))
             print("qsjob = ", qsjob)
             print("qsMachine=", qsMachine)
-            total_hours=int(qsjob['hours_worked__sum'])+int(qsMachine['hours_used__sum'])
-            total_amount=int(qsjob['total__sum'])+int(qsMachine['total__sum'])
+            if qsjob['hours_worked__sum'] == None:
+                hour1 = 0
+            else: hour1 = qsjob['hours_worked__sum']
+            if qsMachine['hours_used__sum'] == None:
+                hour2=0
+            else: hour2=qsMachine['hours_used__sum']
+            if qsjob['total__sum'] == None:
+                amount1 = 0
+            else : amount1=qsjob['total__sum']
+            if qsMachine['total__sum'] == None:
+                amount2 = 0
+            else : amount2 = qsMachine['total__sum']
+
+            total_hours=int(hour1)+int(hour2)
+            total_amount=int(amount1)+int(amount2)
             Timecard.objects.filter(site_code=timecard.site_code).update(total_hours=total_hours,total_amount=total_amount)
             print("total_hours = ",total_hours, total_amount)
 
-        return HttpResponseRedirect('timecard_management.html')
+        return HttpResponseRedirect('/timecard_management')
     else:
         form = CreateTimeCardForm()
         #jobform = JobEntryForm()
