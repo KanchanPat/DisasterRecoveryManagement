@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block content %}
-    <span style="margin-left:45px;">Timesheet Management</span>
-    <br><br><br><br><br>
+    <span style="margin-left:45px;font-size: 15pt">Timesheet Management</span>
+    <br><br><br>
     <div style="margin-left:45px;">
         <table border="1">
             <tr>
@@ -10,7 +10,7 @@
                 <th>Contractor Name</th>
                 <th>Total Hours</th>
                 <th>Total amount</th>
-                <th></th>
+                <th>Status</th>
             </tr>
             {% for timesheet in time_card_list %}
                 <tr>
@@ -23,6 +23,7 @@
             {% endfor %}
         </table>
     </div>
+    <br><br>
 {% endblock %}
 {% block css %} 
     <link rel="stylesheet" type="text/css" href="{% static 'css/style1.css' %}">
