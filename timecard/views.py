@@ -66,7 +66,7 @@ class JobCreate(CreateView):
 class JobDelete(DeleteView):
     model = Job
     template_name = 'delete.html'
-    success_url = reverse_lazy('job_management')
+    success_url = reverse_lazy('job_management.html')
 
 
 @method_decorator(login_required, name='dispatch')
