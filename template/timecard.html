@@ -6,25 +6,26 @@
    {{ form.as_table }}
     <br><br>
     <span style="margin-left:45px;"><b>Job Entry</b></span>
-    <div style="margin-left:45px;">
+    <div style="margin-left:45px;" >
         <table  cellpadding="8">
 
          {% for i in '012'|make_list %}
              <tr>
                 <td >
          {% if job_list %}
-            <select name="jobcode{{i}}">
+            <select name="jobcode{{i}}" id="jobcode{{i}}">
                 <option value="0" selected>Select Job</option>
             {% for job in job_list %}
-                <option value="{{job.pk}}"> {{job.job_code}}</option>
+                <option value="{{job.pk}}|{{job.hourly_rate}}"> {{job.job_code}}</option>
             {% endfor %}
             </select></td><td >
-            Hrs. worked <input type="text" name="hoursworked{{i}}" onchange="getlabortotal({{i}});"></td><td>
-            Total : <text name="total{{i}}" value="{{ job.hourly_rate }}">{% widthratio job.hourly_rate 5 100 as width %}</text>
+            Hrs. worked <input type="text" name="hoursworked{{i}}" id="hoursworked{{i}}" onchange="getlabortotal({{i}});"></td><td>
+            Total : <text name="labortotal{{i}}" id="labortotal{{i}}"></text>
          {% endif %}
             </td></tr>
          {% endfor %}
         </table>
+        <p><input type="button" value="Add More Jobs" onclick="addJob();" /></p>
     </div>
     <br><br>
     <span style="margin-left:45px;"><B>Machine Entry</B></span>
@@ -35,14 +36,14 @@
             <tr>
                 <td>
          {% if machine_list %}
-            <select name="machinecode{{i}}">
+            <select name="machinecode{{i}}" id="machinecode{{i}}">
                 <option value="0" selected>Select Machine</option>
             {% for machine in machine_list %}
-                <option value="{{machine.id}}"> {{ machine.machine_code}}</option>
+                <option value="{{machine.id}}|{{machine.hourly_rent}}"> {{ machine.machine_code}}</option>
             {% endfor %}
             </select></td><td>
-            Hrs. worked <input type="text" name="hoursused{{i}}"></td><td>
-            Total : <text name="machinetotal{{i}}" value="{{ machine.hourly_rate }}"></text>
+            Hrs. worked <input type="text" name="hoursused{{i}}" id="hoursused{{i}}" onchange="getmachinetotal({{i}});"></td><td>
+            Total : <text name="machinetotal{{i}}" id="machinetotal{{i}}""></text>
          {% endif %}
             </td></tr>
          {% endfor %}
@@ -55,22 +56,29 @@
 
     {% csrf_token %}
 </form>
-
 <script type="text/javascript">
 function getlabortotal(i)
 {
-    var ename = "jobcode" + i;
-    var e = document.getElementById(ename);
-    alert(ename);
-    var rate = e.options[e.selectedIndex].value;
-    alert("here")
-    var a = document.getElementById("hoursworked"+i).value;
-    document.getElementById("total").innerText= a*rate;
-    alert(i);
-    alert(rate);
-    alert("here")
+
+    var hrs = document.getElementById("hoursworked"+i).value;
+    //alert("hrs"+hrs);
+    var rate = document.getElementById("jobcode"+i).value;
+    //alert("rate"+rate);
+    //alert("aaaA"+rate.split("|")[1])
+    document.getElementById("labortotal"+i).innerText= parseInt(hrs)*parseInt(rate.split("|")[1]);
+
+}
+function getmachinetotal(i)
+{
+
+    var hrs = document.getElementById("hoursused"+i).value;
+    //alert("hrs"+hrs);
+    var rate = document.getElementById("machinecode"+i).value;
+    //alert("rate"+rate);
+    //alert("aaaA"+rate.split("|")[1])
+    document.getElementById("machinetotal"+i).innerText= parseInt(hrs)*parseInt(rate.split("|")[1]);
+
 }
 
 </script>
-
 {% endblock %}

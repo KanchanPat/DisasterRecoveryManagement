@@ -118,7 +118,7 @@ def create_timecard(request):
             for i in range(3):
                 var1 = 'jobcode'+str(i)
                 var2 = 'hoursworked'+str(i)
-                job_list = request.POST.get(var1)
+                job_list = request.POST.get(var1).split('|')[0]
                 hoursworked = request.POST.get(var2)
                 print("hoursworked:", hoursworked)
                 print("job_list:", job_list)
@@ -132,7 +132,7 @@ def create_timecard(request):
             for i in range(3):
                 var1 = 'machinecode'+str(i)
                 var2 = 'hoursused'+str(i)
-                machine_list = request.POST.get(var1)
+                machine_list = request.POST.get(var1).split('|')[0]
                 hoursused = request.POST.get(var2)
                 print("machine_list:",machine_list)
                 print("hoursused:", hoursused)
