@@ -218,6 +218,7 @@ class MachineCreate(CreateView):
     model = Machine
     template_name = 'update_form.html'
     fields = ['machine_code', 'description', 'hourly_rent', 'max_hour_perday']
+    success_url = reverse_lazy( 'machine_management' )
 
 
 @method_decorator(login_required, name='dispatch')

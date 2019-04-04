@@ -24,7 +24,7 @@ from timecard.views import MachineList, MachineCreate, MachineUpdate, MachineDel
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', LoginView.as_view(), name='login'),
-    path('', LogoutView.as_view(), name='logout'),
+    path('logout', LogoutView.as_view(), name='logout'),
     path('job_management/', JobList.as_view(), name='job_management'),
     path('job_update/<int:pk>/', JobUpdate.as_view(), name='job_update'),
     path('job_create/', JobCreate.as_view(), name='job_create'),
