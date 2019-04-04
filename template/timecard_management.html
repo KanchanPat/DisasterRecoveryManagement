@@ -18,7 +18,11 @@
                     <td>{{ timesheet.contractor_name }}</td>
                     <td>{{ timesheet.total_hours }}</td>
                     <td>{{ timesheet.total_amount }}</td>
-                    <td><a href="{% url 'status_update' timesheet.id %}"> {{ timesheet.status }}</a></td>
+                    <td>{% if user.is_superuser %}<a href="{% url 'status_update' timesheet.id %}"> {{ timesheet.status }}
+					</a>
+					{% else %} {{ timesheet.status }}
+					{% endif %}
+					</td>
                 </tr>
             {% endfor %}
         </table>

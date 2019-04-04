@@ -4,8 +4,6 @@ from django.urls import reverse
 # Create your models here.
 
 
-
-
 class Job(models.Model):
     job_code = models.CharField(max_length=25, null=False)
     description = models.CharField(max_length=100, null=False)
@@ -31,6 +29,7 @@ class Machine(models.Model):
     def __str__(self):
         return self.machine_code
 
+
 class Timecard(models.Model):
     site_code = models.CharField(max_length=50, null=False)
     contractor_name = models.CharField(max_length=50, null=False)
@@ -52,6 +51,7 @@ class JobEntry(models.Model):
     hours_worked = models.IntegerField(default=0)
     total = models.IntegerField(default=0)
     site_code = models.CharField(max_length=50)
+
 
 class MachineEntry(models.Model):
     machine_code = models.ForeignKey(Machine, on_delete='casscade')
