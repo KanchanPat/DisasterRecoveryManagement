@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="2479ebc5-8a62-4ab2-8cf4-b4ff6de5ee35" name="dkf" url="http://3.17.91.186">
+        <fileTransfer host="3.17.91.186" port="22" privateKey="C:\Users\will\Desktop\drapp.ppk" accessType="SFTP" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
